@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hubble Hub Roadmap — Journey to the Stars</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --space-dark: #0a0a1a;
+            --nebula-purple: #6b21a8;
+            --nebula-blue: #1e40af;
+            --star-gold: #fbbf24;
+            --cosmic-cyan: #22d3ee;
+            --plasma-orange: #f97316;
+            --white: #ffffff;
+            --glass-bg: rgba(10, 10, 30, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--space-dark);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* SVG Icon Styles */
+        .icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 20px;
+        }
+
+        .icon-small {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
+        .phase-v1 .icon { color: var(--nebula-purple); filter: drop-shadow(0 0 10px var(--nebula-purple)); }
+        .phase-v2 .icon { color: var(--cosmic-cyan); filter: drop-shadow(0 0 10px var(--cosmic-cyan)); }
+        .phase-v3 .icon { color: var(--star-gold); filter: drop-shadow(0 0 10px var(--star-gold)); }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: url('hubble-bg.png') center center / cover no-repeat;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(10, 10, 26, 0.3) 0%,
+                rgba(10, 10, 26, 0.5) 50%,
+                rgba(10, 10, 26, 0.95) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--cosmic-cyan), var(--star-gold), var(--plasma-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(34, 211, 238, 0.5)); }
+            to { filter: drop-shadow(0 0 40px rgba(251, 191, 36, 0.5)); }
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .scroll-indicator .arrow {
+            width: 30px;
+            height: 30px;
+            border-right: 2px solid var(--cosmic-cyan);
+            border-bottom: 2px solid var(--cosmic-cyan);
+            transform: rotate(45deg);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Navigation */
+        .phase-nav {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .phase-nav a {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .phase-nav a:hover,
+        .phase-nav a.active {
+            background: var(--cosmic-cyan);
+            border-color: var(--cosmic-cyan);
+            box-shadow: 0 0 20px var(--cosmic-cyan);
+        }
+
+        .phase-nav a::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background: var(--glass-bg);
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .phase-nav a:hover::after {
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .roadmap-container {
+            position: relative;
+            background: linear-gradient(180deg, var(--space-dark) 0%, #0f0f2a 50%, var(--space-dark) 100%);
+        }
+
+        /* Timeline Line */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                var(--nebula-purple) 10%,
+                var(--cosmic-cyan) 50%,
+                var(--star-gold) 90%,
+                transparent
+            );
+            transform: translateX(-50%);
+        }
+
+        @media (max-width: 900px) {
+            .timeline-line {
+                left: 30px;
+            }
+        }
+
+        /* Phase Sections */
+        .phase {
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .phase-header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .phase-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            padding: 10px 30px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .phase-badge svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .phase-v1 .phase-badge {
+            background: linear-gradient(135deg, var(--nebula-purple), var(--nebula-blue));
+            box-shadow: 0 0 30px rgba(107, 33, 168, 0.5);
+        }
+
+        .phase-v2 .phase-badge {
+            background: linear-gradient(135deg, var(--cosmic-cyan), var(--nebula-blue));
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
+        }
+
+        .phase-v3 .phase-badge {
+            background: linear-gradient(135deg, var(--star-gold), var(--plasma-orange));
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+        }
+
+        .phase-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .phase-header .tagline {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Feature Cards */
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        .feature-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+        }
+
+        .feature-card:nth-child(even) {
+            direction: rtl;
+        }
+
+        .feature-card:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        @media (max-width: 900px) {
+            .feature-card,
+            .feature-card:nth-child(even) {
+                grid-template-columns: 1fr;
+                direction: ltr;
+            }
+        }
+
+        .feature-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-content:hover {
+            transform: translateY(-5px);
+        }
+
+        .phase-v1 .feature-content:hover {
+            box-shadow: 0 20px 60px rgba(107, 33, 168, 0.3);
+        }
+
+        .phase-v2 .feature-content:hover {
+            box-shadow: 0 20px 60px rgba(34, 211, 238, 0.3);
+        }
+
+        .phase-v3 .feature-content:hover {
+            box-shadow: 0 20px 60px rgba(251, 191, 36, 0.3);
+        }
+
+        .feature-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .phase-v1 .feature-content::before {
+            background: linear-gradient(90deg, var(--nebula-purple), var(--nebula-blue));
+        }
+
+        .phase-v2 .feature-content::before {
+            background: linear-gradient(90deg, var(--cosmic-cyan), var(--nebula-blue));
+        }
+
+        .phase-v3 .feature-content::before {
+            background: linear-gradient(90deg, var(--star-gold), var(--plasma-orange));
+        }
+
+        .feature-content h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .feature-content > p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .feature-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .detail-section h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-section h4 svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .phase-v1 .detail-section h4 { color: var(--nebula-purple); }
+        .phase-v1 .detail-section h4 svg { color: var(--nebula-purple); }
+        .phase-v2 .detail-section h4 { color: var(--cosmic-cyan); }
+        .phase-v2 .detail-section h4 svg { color: var(--cosmic-cyan); }
+        .phase-v3 .detail-section h4 { color: var(--star-gold); }
+        .phase-v3 .detail-section h4 svg { color: var(--star-gold); }
+
+        .detail-section ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .detail-section li {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .detail-section li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            opacity: 0.5;
+            font-weight: bold;
+        }
+
+        /* Visual Side */
+        .feature-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .visual-orb {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .visual-orb svg {
+            width: 80px;
+            height: 80px;
+            color: white;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+        }
+
+        .phase-v1 .visual-orb {
+            background: radial-gradient(circle at 30% 30%, var(--nebula-purple), var(--nebula-blue));
+            box-shadow: 0 0 60px rgba(107, 33, 168, 0.5), inset 0 0 60px rgba(255, 255, 255, 0.1);
+        }
+
+        .phase-v2 .visual-orb {
+            background: radial-gradient(circle at 30% 30%, var(--cosmic-cyan), var(--nebula-blue));
+            box-shadow: 0 0 60px rgba(34, 211, 238, 0.5), inset 0 0 60px rgba(255, 255, 255, 0.1);
+        }
+
+        .phase-v3 .visual-orb {
+            background: radial-gradient(circle at 30% 30%, var(--star-gold), var(--plasma-orange));
+            box-shadow: 0 0 60px rgba(251, 191, 36, 0.5), inset 0 0 60px rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .visual-orb::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Experience Summary */
+        .experience-summary {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 60px auto 0;
+            text-align: center;
+        }
+
+        .experience-summary h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .experience-summary .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .benefit-tag {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .phase-v1 .benefit-tag {
+            background: rgba(107, 33, 168, 0.3);
+            border: 1px solid var(--nebula-purple);
+        }
+
+        .phase-v2 .benefit-tag {
+            background: rgba(34, 211, 238, 0.2);
+            border: 1px solid var(--cosmic-cyan);
+        }
+
+        .phase-v3 .benefit-tag {
+            background: rgba(251, 191, 36, 0.2);
+            border: 1px solid var(--star-gold);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(to top, rgba(10, 10, 26, 1), transparent);
+        }
+
+        .footer h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--cosmic-cyan), var(--nebula-blue));
+            border: none;
+            border-radius: 30px;
+            color: var(--white);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(34, 211, 238, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(34, 211, 238, 0.5);
+        }
+
+        /* Stars background effect */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Completed Badge */
+        .completed-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #10b981;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Twinkling Stars -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Side Navigation -->
+    <nav class="phase-nav">
+        <a href="#hero" data-label="HOME" class="active"></a>
+        <a href="#v1" data-label="V1 — CURRENT"></a>
+        <a href="#v2" data-label="V2 — CONNECTED"></a>
+        <a href="#v3" data-label="V3 — PROACTIVE"></a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1>HUBBLE HUB ROADMAP</h1>
+            <p>From knowledge synthesis to account-aware copilot to proactive guidance engine. 
+               Explore the journey from V1 to V3 and see how Hubble will transform how Support 
+               and Success teams work.</p>
+        </div>
+        <div class="scroll-indicator" onclick="document.getElementById('v1').scrollIntoView()">
+            <span>Explore the Journey</span>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- Roadmap Content -->
+    <div class="roadmap-container">
+        <div class="timeline-line"></div>
+
+        <!-- V1 - Current State -->
+        <section class="phase phase-v1" id="v1">
+            <div class="phase-header">
+                <span class="phase-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+                    V1 — Live Now
+                </span>
+                <h2>Knowledge Synthesis <span class="completed-badge">✓ Completed</span></h2>
+                <p class="tagline">Unified search across all knowledge sources with AI-powered answers</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+                        <h3>Unified Knowledge Search</h3>
+                        <p>Search across Slack, Outline docs, Help Center, and Product Roadmap simultaneously with semantic query expansion.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    Data Sources
+                                </h4>
+                                <ul>
+                                    <li>Slack conversations (team discussions)</li>
+                                    <li>Outline (internal policies & SOPs)</li>
+                                    <li>Help Center (product documentation)</li>
+                                    <li>ProductBoard Roadmap (planned features)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4v4a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4z"/><path d="M10 10v.5a2 2 0 0 0 4 0V10"/><path d="M9 18h6"/><path d="M12 18v4"/><ellipse cx="12" cy="6" rx="1" ry="0.5"/></svg>
+                        <h3>AI-Powered Synthesis</h3>
+                        <p>Claude AI synthesizes results into clear, actionable answers with mode-specific formatting.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                                    Response Modes
+                                </h4>
+                                <ul>
+                                    <li><strong>General:</strong> Balanced information for any team</li>
+                                    <li><strong>Support:</strong> Technical troubleshooting steps</li>
+                                    <li><strong>Success:</strong> CSM-focused with upsell opportunities</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/><circle cx="12" cy="12" r="4"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        <h3>Smart Features</h3>
+                        <p>Semantic query expansion, relevance filtering, and continuous improvement through feedback.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                                    Capabilities
+                                </h4>
+                                <ul>
+                                    <li>Semantic query expansion with Claude</li>
+                                    <li>Intelligent relevance filtering</li>
+                                    <li>Feedback analytics (Supabase)</li>
+                                    <li>Chrome extension + web app</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-summary">
+                <h4>V1 Experience</h4>
+                <div class="benefits">
+                    <span class="benefit-tag">One search, all sources</span>
+                    <span class="benefit-tag">AI-synthesized answers</span>
+                    <span class="benefit-tag">Role-specific modes</span>
+                    <span class="benefit-tag">80% faster answers</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- V2 - Connected Context -->
+        <section class="phase phase-v2" id="v2">
+            <div class="phase-header">
+                <span class="phase-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    V2 — Next Up
+                </span>
+                <h2>Connected Context</h2>
+                <p class="tagline">Integrations that make answers account-aware and situational</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/><path d="m18 15-2-2"/><path d="m15 18-2-2"/></svg>
+                        <h3>Vitally Integration</h3>
+                        <p>CS health and outcomes context that makes responses situational based on account lifecycle and risk signals.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                    What Hubble Pulls
+                                </h4>
+                                <ul>
+                                    <li>Health score signals (risk/green, drivers)</li>
+                                    <li>Lifecycle stage (onboarding, adoption, renewal)</li>
+                                    <li>Success plan objectives & milestones</li>
+                                    <li>Engagement trends & adoption indicators</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                                    How It Changes Output
+                                </h4>
+                                <ul>
+                                    <li>Guidance differs by stage (onboarding vs renewal)</li>
+                                    <li>Recommended plays aligned to health drivers</li>
+                                    <li>"Here's how to frame it given their current stage"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        <h3>HubSpot Integration</h3>
+                        <p>Relationship, commercial context, and history that makes answers consistent with the customer journey.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                    What Hubble Pulls
+                                </h4>
+                                <ul>
+                                    <li>Account profile (segment, plan, ARR, renewal date)</li>
+                                    <li>Notes & timeline (touchpoints, past decisions)</li>
+                                    <li>Deal/renewal stage and next steps</li>
+                                    <li>Common themes from logged activity</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                                    How It Changes Output
+                                </h4>
+                                <ul>
+                                    <li>Tailored to commercial moment (renewal, expansion)</li>
+                                    <li>"They previously raised concern X—address it here"</li>
+                                    <li>Support & Success see same customer narrative</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <h3>Admin / Product Config Integration</h3>
+                        <p>Real usage and settings truth that adds a "ground truth" layer to stop guessing.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                    What Hubble Pulls
+                                </h4>
+                                <ul>
+                                    <li>Feature enablement status (on/off)</li>
+                                    <li>Permissions & policies configured</li>
+                                    <li>Actual adoption signals & usage gaps</li>
+                                    <li>Configuration mismatches causing issues</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                                    How It Changes Output
+                                </h4>
+                                <ul>
+                                    <li>"This is likely because setting X is disabled"</li>
+                                    <li>"They're paying for Z but not using it"</li>
+                                    <li>Guided investigation with account checkpoints</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        <h3>Zendesk / Ticket Integration</h3>
+                        <p>Ticket history and support context that helps agents resolve issues faster with full customer history.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                    What Hubble Pulls
+                                </h4>
+                                <ul>
+                                    <li>Recent ticket history & CSAT scores</li>
+                                    <li>Previous issues & resolutions</li>
+                                    <li>Contact frequency & sentiment trends</li>
+                                    <li>Escalation history & outcomes</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                                    How It Changes Output
+                                </h4>
+                                <ul>
+                                    <li>"This customer had 3 tickets about GPS last month"</li>
+                                    <li>"Here's what worked for them before"</li>
+                                    <li>Skip redundant troubleshooting steps</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <h3>Known Issues / Bug Tracker</h3>
+                        <p>Real-time connection to engineering bug tracker for instant known issue detection and workarounds.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                    What Hubble Pulls
+                                </h4>
+                                <ul>
+                                    <li>Active bugs & their status</li>
+                                    <li>Official workarounds & temp fixes</li>
+                                    <li>ETAs & release schedules</li>
+                                    <li>Affected versions & configurations</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                                    How It Changes Output
+                                </h4>
+                                <ul>
+                                    <li>"This is a known issue — ETA: next release"</li>
+                                    <li>Skip unnecessary troubleshooting for known bugs</li>
+                                    <li>Provide workaround immediately</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-summary">
+                <h4>V2 Experience — What Users Feel</h4>
+                <div class="benefits">
+                    <span class="benefit-tag">Account-aware answers</span>
+                    <span class="benefit-tag">Faster diagnosis</span>
+                    <span class="benefit-tag">Better CS plays</span>
+                    <span class="benefit-tag">Stronger handoffs</span>
+                    <span class="benefit-tag">Known issue detection</span>
+                    <span class="benefit-tag">Full ticket context</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- V3 - Proactive Hubble -->
+        <section class="phase phase-v3" id="v3">
+            <div class="phase-header">
+                <span class="phase-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                    V3 — Future Vision
+                </span>
+                <h2>Proactive Hubble</h2>
+                <p class="tagline">Pattern detection and suggested actions before you even ask</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12 7 2"/><path d="m7 12 5-10"/><path d="m12 12 5-10"/><path d="m17 12 5-10"/><path d="M4.5 7h15"/><path d="M12 16v6"/><path d="M8 22h8"/></svg>
+                        <h3>Pattern & Signal Engine</h3>
+                        <p>Cross-system anomaly and opportunity detection that continuously analyzes signals.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                                    What It Analyzes
+                                </h4>
+                                <ul>
+                                    <li>Usage trend changes (drop-off, stalled onboarding)</li>
+                                    <li>Risk combinations (engagement + renewal + tickets)</li>
+                                    <li>Repeated friction signals across accounts</li>
+                                    <li>Expansion indicators (seat growth, feature limits)</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                                    Outputs
+                                </h4>
+                                <ul>
+                                    <li>Signals with explanation & confidence level</li>
+                                    <li>Account-level flags (risk, plateau, expansion)</li>
+                                    <li>Segment-level patterns (systemic issues)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12 7 2"/><path d="m7 12 5-10"/><path d="m12 12 5-10"/><path d="m17 12 5-10"/><path d="M4.5 7h15"/><path d="M12 16v6"/><path d="M8 22h8"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                        <h3>Recommended Actions</h3>
+                        <p>Playbooks generated from signals with the next best action for CSMs and Support.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
+                                    What Hubble Suggests
+                                </h4>
+                                <ul>
+                                    <li>Next best action (NBA) with rationale</li>
+                                    <li>Artifacts needed (talk track, checklist, links)</li>
+                                    <li>"Why this action now" explanation</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+                                    Example Plays
+                                </h4>
+                                <ul>
+                                    <li>Onboarding stalled → admin setup review</li>
+                                    <li>Feature unused → training + milestones</li>
+                                    <li>Ticket spike → troubleshooting + audit</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                        <h3>Delivery & Learning Loop</h3>
+                        <p>Proactive surfaces and continuous improvement based on outcomes.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                                    Delivery Surfaces
+                                </h4>
+                                <ul>
+                                    <li>Proactive dashboard: "Today's accounts"</li>
+                                    <li>Nudges: "Account X trending down 14 days"</li>
+                                    <li>Workflow integrations (where teams work)</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4v4a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4z"/><path d="M10 10v.5a2 2 0 0 0 4 0V10"/></svg>
+                                    Learning Loop
+                                </h4>
+                                <ul>
+                                    <li>Users rate usefulness of suggestions</li>
+                                    <li>Outcomes tracked (usage, tickets, renewal)</li>
+                                    <li>Learns which plays work by segment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                        <h3>Ticket Pattern Detection</h3>
+                        <p>Proactively identify ticket spikes, documentation gaps, and emerging issues before they escalate.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                                    What It Detects
+                                </h4>
+                                <ul>
+                                    <li>Ticket spikes by topic ("GPS tickets up 40% this week")</li>
+                                    <li>Documentation gaps (questions with no KB article)</li>
+                                    <li>Emerging issues before they become widespread</li>
+                                    <li>Seasonal or release-related patterns</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                                    Outputs
+                                </h4>
+                                <ul>
+                                    <li>Alerts: "Screenshot issues spiking — check Linux 1.6.12"</li>
+                                    <li>KB suggestions: "Create article for this common question"</li>
+                                    <li>Trend reports for team leads</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg>
+                        <h3>Auto-Generated Macros & Templates</h3>
+                        <p>Automatically create response templates based on ticket patterns and common questions.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
+                                    What Hubble Generates
+                                </h4>
+                                <ul>
+                                    <li>Response templates from successful resolutions</li>
+                                    <li>Macro suggestions: "Asked 50x this month"</li>
+                                    <li>Step-by-step troubleshooting flows</li>
+                                    <li>KB article drafts for review</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+                                    Benefits
+                                </h4>
+                                <ul>
+                                    <li>Consistent responses across the team</li>
+                                    <li>Faster reply times for common issues</li>
+                                    <li>Knowledge captured automatically</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                        <h3>Escalation Intelligence</h3>
+                        <p>Smart escalation predictions and auto-generated context for T2 handoffs.</p>
+                        <div class="feature-details">
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                                    What It Predicts
+                                </h4>
+                                <ul>
+                                    <li>Which tickets need T2/Engineering escalation</li>
+                                    <li>Complexity scoring based on issue patterns</li>
+                                    <li>Escalation urgency recommendations</li>
+                                    <li>Best team member to handle the issue</li>
+                                </ul>
+                            </div>
+                            <div class="detail-section">
+                                <h4>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                                    Auto-Generated Context
+                                </h4>
+                                <ul>
+                                    <li>"This needs engineering — here's the context"</li>
+                                    <li>Pre-filled escalation templates</li>
+                                    <li>Relevant logs & config automatically attached</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-visual">
+                        <div class="visual-orb">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="experience-summary">
+                <h4>V3 Experience — What Users Feel</h4>
+                <div class="benefits">
+                    <span class="benefit-tag">CS/Support copilot</span>
+                    <span class="benefit-tag">Early warnings</span>
+                    <span class="benefit-tag">Ready-to-run plays</span>
+                    <span class="benefit-tag">Less firefighting</span>
+                    <span class="benefit-tag">Scalable retention</span>
+                    <span class="benefit-tag">Smarter escalations</span>
+                    <span class="benefit-tag">Auto-generated macros</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <h3>Ready to Explore the Galaxy?</h3>
+            <p>The Hubble Hub is live and ready to transform how you find answers.</p>
+            <a href="https://hubble-hub-v2.onrender.com" target="_blank" class="cta-button">Launch Hubble Hub</a>
+        </footer>
+    </div>
+
+    <script>
+        // Generate twinkling stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.width = Math.random() * 2 + 1 + 'px';
+            star.style.height = star.style.width;
+            starsContainer.appendChild(star);
+        }
+
+        // Navigation highlighting
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.phase-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 300) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
